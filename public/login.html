@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrimonial page</title>
+  <style>
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #222;
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .background-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: 
+        linear-gradient(90deg, transparent 79px, #444 79px, #444 81px, transparent 81px),
+        linear-gradient(#333 .1em, transparent .1em);
+      background-size: 100% 100%, 20px 20px;
+      animation: moveBackground 20s linear infinite;
+    }
+
+    @keyframes moveBackground {
+      from { background-position: 0 0; }
+      to { background-position: 100% 0; }
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 350px;
+      border-radius: 20px;
+      overflow: hidden;
+      background-color: #333;
+      padding: 20px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+
+    header {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form {
+      display: none;
+      transition: all 0.3s ease;
+    }
+
+    .active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    input,
+    .checkbox {
+      margin-top: 20px;
+      width: calc(100% - 40px);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #555;
+      font-size: 16px;
+      color: #333;
+      background-color: #fff;
+    }
+
+    input[type="submit"] {
+      margin-top: 30px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .checkbox label {
+      font-size: 12px;
+    }
+
+    .toggle-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    .toggle-buttons button {
+      width: 23%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .toggle-buttons button:hover {
+      background-color: #45a049;
+    }
+
+    /* Contrasting margin around the center page */
+    .wrapper {
+      border: 10px solid #45a049;
+    }
+  
+  </style>
+</head>
+<body>
+  <div class="background-lines"></div>
+  <section class="wrapper">
+    <div class="form signup active">
+      <header>MATRIMONIAL PORTAL</header>
+      <form action="/register" method="post">
+        <input type="text" placeholder="Bride name" name="username" required>
+        <input type="email" placeholder="Email address" name="email" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <div class="checkbox">
+          <input type="checkbox" id="signupCheck" required>
+          <label for="signupCheck">I accept all terms & conditions</label>
+        </div>
+        <input type="submit" value="Signup">
+      </form>
+    </div>
+
+    <div class="toggle-buttons">
+      <button id="login-button">Login</button>
+      <button id="update-button">Update</button>
+      <button id="delete-button">Delete</button>
+      <button id="signup-button">Signup</button>
+    </div>
+
+    <div class="form login">
+      <header>Login</header>
+      <form action="/login" method="post">
+        <input type="email" placeholder="Email address" name="email" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <a href="#">Forgot password?</a>
+        <input type="submit" value="Login">
+      </form>
+    </div>
+
+    <div class="form update">
+      <header>Update Bride's Profile</header>
+      <form action="/update" method="post">
+        <input type="email" placeholder="Email address" name="email" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <input type="email" placeholder="New email address" name="newEmail" required>
+        <input type="password" placeholder="New password" name="newPassword" required>
+        <input type="submit" value="Update">
+      </form>
+    </div>
+
+    <div class="form delete">
+      <header>Delete Bride's Profile</header>
+      <form action="/delete" method="post">
+        <input type="email" placeholder="Email address" name="email" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <input type="submit" value="Delete">
+      </form>
+    </div>
+  </section>
+<script>
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const loginButton = document.getElementById('login-button');
+    const updateButton = document.getElementById('update-button');
+    const deleteButton = document.getElementById('delete-button');
+    const signupButton = document.getElementById('signup-button');
+    const forms = document.querySelectorAll('.form');
+
+    loginButton.addEventListener('click', function() {
+      forms.forEach(form => form.classList.remove('active'));
+      document.querySelector('.form.login').classList.add('active');
+      loginButton.style.display = 'none';
+      updateButton.style.display = 'inline-block';
+      deleteButton.style.display = 'inline-block';
+      signupButton.style.display = 'inline-block';
+    });
+
+    updateButton.addEventListener('click', function() {
+      forms.forEach(form => form.classList.remove('active'));
+      document.querySelector('.form.update').classList.add('active');
+      updateButton.style.display = 'none';
+      loginButton.style.display = 'inline-block';
+      deleteButton.style.display = 'inline-block';
+      signupButton.style.display = 'inline-block';
+    });
+
+    deleteButton.addEventListener('click', function() {
+      forms.forEach(form => form.classList.remove('active'));
+      document.querySelector('.form.delete').classList.add('active');
+      deleteButton.style.display = 'none';
+      loginButton.style.display = 'inline-block';
+      updateButton.style.display = 'inline-block';
+      signupButton.style.display = 'inline-block';
+    });
+
+    // Hide signup button when on signup page
+    if (document.querySelector('.form.signup').classList.contains('active')) {
+      signupButton.style.display = 'none';
+    }
+
+    // Redirect to signup page when clicking the signup button on other pages
+    signupButton.addEventListener('click', function() {
+      forms.forEach(form => form.classList.remove('active'));
+      document.querySelector('.form.signup').classList.add('active');
+      loginButton.style.display = 'inline-block';
+      updateButton.style.display = 'inline-block';
+      deleteButton.style.display = 'inline-block';
+      signupButton.style.display = 'none';
+    });
+  });
+
+</script>
+  
+</body>
+</html>
